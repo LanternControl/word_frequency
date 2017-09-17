@@ -7,12 +7,12 @@ class Wordfreq
 
   def initialize(filename)
 
-    @@diction = File.read(filename).downcase.gsub(/[^a-z0-9\s]/i, ' ').split(' ') - STOP_WORDS
+    @diction = File.read(filename).downcase.gsub(/[^a-z0-9\s]/i, ' ').split(' ') - STOP_WORDS
     @@new_array  = Hash.new 0
     # ^^^^ cleaned this up
     # @@diction = @@diction - STOP_WORDS
     # diction.delete_if {|word| STOP_WORDS.include?(word)}
-    @@diction.each do |word|
+    @diction.each do |word|
           if word != '' then @@new_array[word] += 1
           end
           @@ordered_results = @@new_array.sort_by{|keys, values| values}.reverse
@@ -20,7 +20,7 @@ class Wordfreq
   end
 
   def frequency(word)
-    @@diction.count(word)
+    @diction.count(word)
 
   end
 
@@ -34,9 +34,11 @@ class Wordfreq
   end
 
   def print_report
-
+    @@ordered_results.first(10) do |key, value|
+      puts "#{key} | #{value} " + "*" * value
+    end
   end
-end
+
 end
 
 if __FILE__ == $0
